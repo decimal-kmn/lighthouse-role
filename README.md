@@ -1,4 +1,4 @@
-Role name
+Lighthouse ansible role
 =========
 
 This role deploys LightHouse (is a lightweight GUI interface for ClickHouse)
