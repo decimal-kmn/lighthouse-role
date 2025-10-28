@@ -1,0 +1,49 @@
+- name: Install dependencies
+  ansible.builtin.package:
+    name:
+      - wget
+      - tar
+    state: present
+
+- name: Create installation directory
+  ansible.builtin.file:
+    path: "{{ install_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Download lighthouse
+  ansible.builtin.get_url:
+    url: "{{ lighthouse_repo }}"
+    dest: "/tmp/lighthouse-{{ lighthouse_version }}.tar.gz"
+    mode: '0644'
+
+- name: Extract lighthouse
+  ansible.builtin.unarchive:
+    src: "/tmp/lighthouse-{{ lighthouse_version }}.tar.gz"
+    dest: "{{ install_dir }}"
+    remote_src: true
+    extra_opts: ["--strip-components=1"]
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+  notify: restart nginx
+
+- name: Remove default nginx site
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Configure Nginx for Lighthouse
+  ansible.builtin.template:
+    src: "{{ lighthouse_config }}"
+    dest: /etc/nginx/conf.d/lighthouse.conf
+    mode: '0644'
+  notify: restart nginx
+
+- name: Ensure Nginx is running
+  ansible.builtin.systemd:
+    name: nginx
+    state: started
+    enabled: true

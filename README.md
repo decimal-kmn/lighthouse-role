@@ -6,29 +6,29 @@ This role deploys LightHouse (is a lightweight GUI interface for ClickHouse)
 Requirements
 ------------
 
-Nginx
-wget
-tar
+Nginx  
+wget  
+tar  
 
 
 Dependencies
 ------------
-
+```bash
 nginx (for proxy to clickhouse)
 wget (get lighthouse disrib)
 tar (for extracting lighthouse distrib)
 clickhouse node
-
+```
 
 Example Playbook
 ----------------
-
+```bash
 - name: Deploy lighthouse
   hosts: lighthouse
   become: true
   roles:
     - lighthouse-role
-
+```
 License
 -------
 

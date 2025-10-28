@@ -1,0 +1,6 @@
+---
+lighthouse_version: "master"
+lighthouse_repo: "https://github.com/VKCOM/lighthouse/archive/{{ lighthouse_version }}.tar.gz"
+install_dir: "/opt/lighthouse"
+lighthouse_config: "lighthouse-nginx.conf.j2"
+clickhouse_internal_ip: "10.0.1.4"
